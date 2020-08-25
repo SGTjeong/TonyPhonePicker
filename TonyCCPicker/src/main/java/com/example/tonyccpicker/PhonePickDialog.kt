@@ -149,6 +149,12 @@ class PhonePickDialog : DialogFragment() {
         }
     }
 
+    override fun dismiss() {
+        super.dismiss()
+        adapter?.submitList(countries)
+        binding.etSearch.setText("")
+    }
+
     private var listener : OnItemClickListener? = null
 
     fun setOnItemClickListener(listener : (CountryInfo) -> Unit){
