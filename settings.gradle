@@ -1,0 +1,3 @@
+include ':TonyCCPicker'
+include ':app'
+rootProject.name = "TonyPhonePicker"
