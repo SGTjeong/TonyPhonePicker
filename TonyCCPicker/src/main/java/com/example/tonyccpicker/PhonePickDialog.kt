@@ -17,6 +17,7 @@ class PhonePickDialog : DialogFragment() {
     private lateinit var binding : LayoutPickerBinding
     private lateinit var countries : List<CountryInfo>
     private var adapter : CountryInfoAdapter = CountryInfoAdapter()
+    private var isOpen = false
 
     companion object{
         private var instance : PhonePickDialog? = null
@@ -47,6 +48,7 @@ class PhonePickDialog : DialogFragment() {
             false
         )
 
+        isOpen = false
         initContents()
         setUpListeners()
 
@@ -67,9 +69,6 @@ class PhonePickDialog : DialogFragment() {
         super.onActivityCreated(arg0)
         dialog!!.window?.attributes?.windowAnimations = R.style.DialogAnimation
     }
-
-
-    private var isOpen = false
 
     private fun initContents() {
         countries = CountryInfo.getAllCountries(context!!, "korean")
@@ -151,17 +150,13 @@ class PhonePickDialog : DialogFragment() {
 
     override fun dismiss() {
         super.dismiss()
+        isOpen = false
         adapter?.submitList(countries)
         binding.etSearch.setText("")
     }
-
-    private var listener : OnItemClickListener? = null
 
     fun setOnItemClickListener(listener : (CountryInfo) -> Unit){
         adapter.setOnItemClickListener(listener)
     }
 
-    interface OnItemClickListener{
-        fun onItemClick(countryInfo : CountryInfo)
-    }
 }
