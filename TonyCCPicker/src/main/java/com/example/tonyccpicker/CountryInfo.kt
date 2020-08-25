@@ -329,5 +329,19 @@ data  class CountryInfo(var name : String, var nameCode : String, var phoneCode 
                 else -> R.drawable.flag_transparent
             }
         }
+
+        fun getDefaultCountry(context : Context, language: String) : CountryInfo?{
+            if(countries==null){
+                countries = getAllCountries(context!!, language)
+            }
+
+            for(country in countries!!){
+                if(country.name == "대한민국") {
+                    return country
+                }
+            }
+
+            return countries!![0]?:null
+        }
     }
 }
