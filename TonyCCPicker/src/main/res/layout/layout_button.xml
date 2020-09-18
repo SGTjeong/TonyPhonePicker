@@ -21,6 +21,7 @@
 
     <TextView
         android:text="+82"
+        android:textColor="#fff"
         android:id="@+id/tv_code"
         android:layout_width="0dp"
         android:layout_height="0dp"

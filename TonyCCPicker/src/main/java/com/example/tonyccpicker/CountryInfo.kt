@@ -336,7 +336,7 @@ data  class CountryInfo(var name : String, var nameCode : String, var phoneCode 
             }
 
             for(country in countries!!){
-                if(country.name == "대한민국") {
+                if(country.nameCode == context.resources.configuration.locales[0].country) {
                     return country
                 }
             }
