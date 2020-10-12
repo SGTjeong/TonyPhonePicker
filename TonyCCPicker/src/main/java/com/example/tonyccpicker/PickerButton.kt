@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import kotlinx.android.synthetic.main.layout_picker.view.*
 
 class PickerButton : FrameLayout {
     private lateinit var iv : ImageView
@@ -40,17 +41,20 @@ class PickerButton : FrameLayout {
         val view  = inflater.inflate(R.layout.layout_button, this, false)
         iv = view.findViewById(R.id.iv_flag)
         tv = view.findViewById(R.id.tv_code)
+
         view.setOnClickListener {
             val dialog = PhonePickDialog.newInstance()
             dialog.setOnItemClickListener {countryInfo ->
                 countryInfo?.let{
                     applyCountryInfo(it)
+                    listener?.onSelect(it)
                     dialog.dismiss()
                 }
             }
             val activity = context as FragmentActivity
             dialog.show(activity.supportFragmentManager, "TonyPicker")
         }
+
         addView(view)
     }
 
@@ -69,5 +73,23 @@ class PickerButton : FrameLayout {
 
     fun getSelectedCountry() : CountryInfo{
         return currentCountry
+    }
+
+    private var listener : OnSelectCountryListener? = null
+
+    fun setOnSelectCountryListener(listener : OnSelectCountryListener){
+        this.listener = listener
+    }
+
+    fun setOnSelectCountryListener(callback : (CountryInfo) -> Unit){
+        this.listener = object : OnSelectCountryListener{
+            override fun onSelect(country: CountryInfo) {
+                callback(country)
+            }
+        }
+    }
+
+    interface OnSelectCountryListener{
+        fun onSelect(country : CountryInfo)
     }
 }
