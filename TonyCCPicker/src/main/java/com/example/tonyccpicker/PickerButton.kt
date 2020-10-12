@@ -79,6 +79,9 @@ class PickerButton : FrameLayout {
 
     fun setOnSelectCountryListener(listener : OnSelectCountryListener){
         this.listener = listener
+        currentCountry?.let {
+            listener?.onSelect(it)
+        }
     }
 
     fun setOnSelectCountryListener(callback : (CountryInfo) -> Unit){
@@ -86,6 +89,9 @@ class PickerButton : FrameLayout {
             override fun onSelect(country: CountryInfo) {
                 callback(country)
             }
+        }
+        currentCountry?.let {
+            listener?.onSelect(it)
         }
     }
 
