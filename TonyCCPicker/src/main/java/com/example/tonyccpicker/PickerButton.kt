@@ -1,6 +1,7 @@
 package com.example.tonyccpicker
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,26 +10,53 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.layout_picker.view.*
+import java.lang.Exception
 
 class PickerButton : FrameLayout {
     private lateinit var iv : ImageView
     private lateinit var tv : TextView
     private lateinit var currentCountry : CountryInfo
+    private lateinit var attribute: PhonePickAttribute
 
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs){
+        init(context, attrs)
+    }
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
-    )
+    ){
+        init(context, attrs)
+    }
 
     constructor(
         context: Context,
         attrs: AttributeSet?,
         defStyleAttr: Int,
         defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
+    ) : super(context, attrs, defStyleAttr, defStyleRes){
+        init(context, attrs)
+    }
+
+    private fun init(context: Context, attrs: AttributeSet?) {
+        loadAttributes(context, attrs)
+    }
+
+    private fun loadAttributes(context : Context, attrs: AttributeSet?) {
+        attrs?:return
+        val attrArr = context.obtainStyledAttributes(attrs, R.styleable.tony_country_pick_dialog, 0, 0)
+        try{
+            val title = attrArr.getString(R.styleable.tony_country_pick_dialog_dialogTitle)
+            val searchButtonTitle = attrArr.getString(R.styleable.tony_country_pick_dialog_dialogSearchButtonTitle)
+            val colorStateList = attrArr.getColorStateList(R.styleable.tony_country_pick_dialog_dialogBackgroundColor) as ColorStateList
+            attribute = PhonePickAttribute(title, colorStateList, searchButtonTitle)
+        } catch (e : Exception){
+            Log.e("TonyPhonePicker", e.toString())
+        } finally {
+            attrArr.recycle()
+        }
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -43,7 +71,7 @@ class PickerButton : FrameLayout {
         tv = view.findViewById(R.id.tv_code)
 
         view.setOnClickListener {
-            val dialog = PhonePickDialog.newInstance()
+            val dialog = PhonePickDialog.newInstance(attribute)
             dialog.setOnItemClickListener {countryInfo ->
                 countryInfo?.let{
                     applyCountryInfo(it)

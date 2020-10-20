@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="tony_country_pick_dialog">
+        <attr name="dialogTitle" format="string"/>
+        <attr name="dialogSearchButtonTitle" format="string"/>
+        <attr name="dialogBackgroundColor" format="color"/>
+    </declare-styleable>
+</resources>

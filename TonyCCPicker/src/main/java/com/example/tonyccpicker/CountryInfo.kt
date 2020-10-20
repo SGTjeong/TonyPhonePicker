@@ -341,7 +341,7 @@ data  class CountryInfo(var name : String, var nameCode : String, var phoneCode 
                 }
             }
 
-            return countries!![0]?:null
+            return countries!![0]
         }
     }
 }

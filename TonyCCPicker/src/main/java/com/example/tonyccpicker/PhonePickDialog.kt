@@ -16,6 +16,7 @@ import com.example.tonyccpicker.databinding.LayoutPickerBinding
 class PhonePickDialog : DialogFragment() {
     private lateinit var binding : LayoutPickerBinding
     private lateinit var countries : List<CountryInfo>
+    private var attributes : PhonePickAttribute? = null
     private var adapter : CountryInfoAdapter = CountryInfoAdapter()
     private var isOpen = false
 
@@ -28,11 +29,17 @@ class PhonePickDialog : DialogFragment() {
             }
             return instance!!
         }
+
+        fun newInstance(attributes : PhonePickAttribute) : PhonePickDialog{
+            instance = PhonePickDialog()
+            instance!!.attributes = attributes
+            return instance!!
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogStyle)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
     }
 
     override fun onCreateView(
@@ -75,6 +82,18 @@ class PhonePickDialog : DialogFragment() {
         adapter.submitList(countries)
         binding.rc.layoutManager = LinearLayoutManager(context!!)
         binding.rc.adapter = adapter
+
+        attributes?.let{
+            applyAttribute(it)
+        }
+    }
+
+    private fun applyAttribute(attributes : PhonePickAttribute) {
+        binding.tvTop.text = attributes.dialogTitle?:"국가코드"
+        binding.tvSearch.text = attributes.dialogButtonTitle?:"검색"
+        attributes.dialogBackgroundColor?.let{ colorStateList ->
+            binding.layout.setBackgroundColor(colorStateList.defaultColor)
+        }
     }
 
     private fun setUpListeners(){
@@ -153,6 +172,10 @@ class PhonePickDialog : DialogFragment() {
         isOpen = false
         adapter?.submitList(countries)
         binding.etSearch.setText("")
+    }
+
+    private fun setAttributes(attributes: PhonePickAttribute){
+        this.attributes = attributes
     }
 
     fun setOnItemClickListener(listener : (CountryInfo) -> Unit){
