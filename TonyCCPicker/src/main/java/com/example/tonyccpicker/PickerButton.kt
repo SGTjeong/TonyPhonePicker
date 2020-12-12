@@ -45,11 +45,11 @@ class PickerButton : FrameLayout {
 
     private fun loadAttributes(context : Context, attrs: AttributeSet?) {
         attrs?:return
-        val attrArr = context.obtainStyledAttributes(attrs, R.styleable.tony_country_pick_dialog, 0, 0)
+        val attrArr = context.obtainStyledAttributes(attrs, R.styleable.PickerButton, 0, 0)
         try{
-            val title = attrArr.getString(R.styleable.tony_country_pick_dialog_dialogTitle)
-            val searchButtonTitle = attrArr.getString(R.styleable.tony_country_pick_dialog_dialogSearchButtonTitle)
-            val colorStateList = attrArr.getColorStateList(R.styleable.tony_country_pick_dialog_dialogBackgroundColor) as ColorStateList
+            val title = attrArr.getString(R.styleable.PickerButton_dialogTitle)
+            val searchButtonTitle = attrArr.getString(R.styleable.PickerButton_dialogSearchButtonTitle)
+            val colorStateList = attrArr.getColorStateList(R.styleable.PickerButton_dialogBackgroundColor) as ColorStateList
             attribute = PhonePickAttribute(title, colorStateList, searchButtonTitle)
         } catch (e : Exception){
             Log.e("TonyPhonePicker", e.toString())
