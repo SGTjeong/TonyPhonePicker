@@ -16,7 +16,7 @@ class PickerButton : FrameLayout {
     private lateinit var iv : ImageView
     private lateinit var tv : TextView
     private lateinit var currentCountry : CountryInfo
-    private lateinit var attribute: PhonePickAttribute
+    private var attribute : PhonePickAttribute? = null
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs){

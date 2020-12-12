@@ -30,7 +30,7 @@ class PhonePickDialog : DialogFragment() {
             return instance!!
         }
 
-        fun newInstance(attributes : PhonePickAttribute) : PhonePickDialog{
+        fun newInstance(attributes : PhonePickAttribute?) : PhonePickDialog{
             instance = PhonePickDialog()
             instance!!.attributes = attributes
             return instance!!
